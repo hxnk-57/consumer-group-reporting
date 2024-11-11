@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ## Usage
 - Configure the runtime duration by modifying the `MINUTES` variable.
 - Adjust the level of parallelism by modifying the `THREADS` variable. The number of consumer groups will be distributed evenly among the threads.
-- Configure the name of the report by modifying th `REPORT_NAME` variable.
+- Configure the name of the report by modifying the `REPORT_NAME` variable.
 
 
 ## Run the script:
@@ -45,7 +45,7 @@ python monitor_consumer_groups.py
 ```
 
 ## Dashboard
-The dashboard provides view of the consumer group states while the consumer group script is running or after it has finished.
+The dashboard provides view of the consumer group states during or after polling.
 To monitor the state changes start the streamlit app:
 ```
 streamlit run dashboard.py

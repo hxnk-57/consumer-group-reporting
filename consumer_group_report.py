@@ -6,10 +6,8 @@ import csv
 import http.client
 import json
 import logging
-import numpy
+import numpy as np
 import os
-import pandas as pd
-import streamlit as st
 import threading
 import time
 
@@ -90,28 +88,16 @@ def poll(consumer_group_ids: List[str]):
         conn.close()
 
 
-def display_result():
-    df =pd.read_csv("consumer_group_states.csv")
-    dummies = pd.get_dummies(df['state'], prefix='', prefix_sep='')
-    df_with_dummies = pd.concat([df[['consumer_group_id']], dummies], axis=1)
-    result = df_with_dummies.groupby('consumer_group_id').sum().reset_index()
-    result.columns.name = None  # Remove the name of the index
-    result = result.rename(columns=lambda x: x if x == 'consumer_group_id' else f"{x.lower()}")
-    new = result.sort_values(by=['preparing_rebalance'], ascending=False)
-    new.head()
-
-
 if __name__ == '__main__':
     conn = http.client.HTTPSConnection(ENDPOINT)
     consumer_groups_states = {}
     timeout = time.time() + 60 * MINUTES
-
     try:
         consumer_group_ids = get_consumer_group_ids(conn)
         for consumer_group_id in consumer_group_ids:
             consumer_groups_states[consumer_group_id] = None
 
-        consumer_group_subgroups = numpy.array_split(consumer_group_ids, THREADS)
+        consumer_group_subgroups = np.array_split(consumer_group_ids, THREADS)
 
         logging.info(f"Monitoring consumer group states for {MINUTES} minutes...")
 
@@ -123,6 +109,5 @@ if __name__ == '__main__':
         conn.close()
 
     logging.info(f"Monitoring completed.")
-    display_result()
 
 # TODO: PERSIST / AGGRREGATE / DASHBOARD THE STATE OF THE GROUPS

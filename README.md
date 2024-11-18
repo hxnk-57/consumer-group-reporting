@@ -29,7 +29,7 @@ source virtual-environment-name/bin/activate
 
 Install the required Python packages:
 ```
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ## Usage
@@ -41,7 +41,7 @@ pip install -r requirements.txt
 ## Run the script:
 The script polls the Confluent API continuosly. Start polling with:
 ```
-python monitor_consumer_groups.py
+python consumer_group_report.py
 ```
 
 ## Dashboard

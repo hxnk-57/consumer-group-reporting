@@ -16,6 +16,7 @@ load_dotenv()
 HEADERS = { 'Authorization': f"Basic {os.getenv('HEADER')}" }
 CONSUMER_GROUP_ID = ""
 CLUSTER_ID = os.getenv("CLUSTER_ID")
+CLUSTER_ALIAS = os.getenv("CLUSTER_ALIAS")
 ENDPOINT = os.getenv("ENDPOINT")
 THREADS = 10
 MINUTES = 30
@@ -48,7 +49,7 @@ def make_request(conn: http.client.HTTPSConnection, method: str, endpoint: str) 
 
 
 def get_consumer_group_ids(conn: http.client.HTTPSConnection) -> List[str]:
-    logging.info(f"Fetching consumer group IDs for cluster {CLUSTER_ID}...")
+    logging.info(f"Fetching consumer group IDs for cluster {CLUSTER_ALIAS}...")
     response = make_request(conn, "GET", f"/kafka/v3/clusters/{CLUSTER_ID}/consumer-groups")
     if not response:
         logging.error("No consumer group ids found")
